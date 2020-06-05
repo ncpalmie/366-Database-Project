@@ -17,6 +17,9 @@ public interface OwnerRepository extends JpaRepository<Owner, Long>{
     // JPQL query
     @Query("from Owner o where o.firstName = :name or o.lastName = :name")
     Owner findByNameJpql(@Param("name") String name);
+
+    @Query("select o from Owner o join o.stores store where o.firstName = :name or o.lastName = :name")
+    Owner findByNameWithStoreJpql(@Param("name") String name);
     
     // Native SQL query
     @Query(value = "select * from Owner as o where o.first_name = :name or o.last_name = :name", nativeQuery = true)

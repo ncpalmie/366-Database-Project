@@ -38,7 +38,7 @@ public class Regulator {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "regulator",  orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "regulator",  cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Audit> audits = new ArrayList<>();
 
     @Column(unique=true)
@@ -51,7 +51,7 @@ public class Regulator {
     @Column(name="last_name")
     private String lastName;
 
-    @Column(name="regualatorID", unique=true)
+    @Column(name="regulatorID", unique=true)
     private String regulatorID;
 
     @Column(unique=false)

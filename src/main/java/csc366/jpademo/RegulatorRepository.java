@@ -17,6 +17,9 @@ public interface RegulatorRepository extends JpaRepository<Regulator, Long>{
     // JPQL query
     @Query("from Regulator o where o.firstName = :name or o.lastName = :name")
     Regulator findByNameJpql(@Param("name") String name);
+
+    @Query("select p from Regulator p join p.audits audit where p.firstName = :name or p.lastName = :name")
+    Regulator findByNameWithAuditJpql(@Param("name") String name);
     
     // Native SQL query
     @Query(value = "select * from Regulator as o where o.first_name = :name or o.last_name = :name", nativeQuery = true)

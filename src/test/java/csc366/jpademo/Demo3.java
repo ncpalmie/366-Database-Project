@@ -15,19 +15,26 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Demo3: Add, list, and remove Owner instances
+// Demo0: Add, list, and remove Regulator & Audit instances
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @TestPropertySource(properties = {
 	"spring.main.banner-mode=off",
-	"spring.jpa.hibernate.ddl-auto=update",
 	"logging.level.root=ERROR",
 	"logging.level.csc366=DEBUG",
 
+	"spring.jpa.hibernate.ddl-auto=update",
+	"spring.datasource.url=jdbc:mysql://mysql.labthreesixsix.com/csc366",
+	"spring.datasource.username=jpa",
+	"spring.datasource.password=demo",
+	
 	"logging.level.org.hibernate.SQL=DEBUG",
 	"logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE", // display prepared statement parameters
 	"spring.jpa.properties.hibernate.format_sql=true",
@@ -42,69 +49,72 @@ public class Demo3 {
     private final static Logger log = LoggerFactory.getLogger(Demo3.class);
     
     @Autowired
-    private OwnerRepository ownerRepository;
+	private RegulatorRepository regulatorRepository;
 
-    private final Owner owner = new Owner("test", "test", "test@calpoly.edu", "123-45-6789", "02/02/77", "123-456-7890");  // "reference" person
+    private final Audit audit = new Audit("audit1", "123", "safety");
+	private final Regulator regulator = new Regulator("Jane", "Doe", "IRS", "Agent1", "Inspector");
+	private final Store store = new Store("Store1", "1234567890", "123 Center Dr", "200 sqft");
     
     @BeforeEach
     private void setup() {
-	ownerRepository.saveAndFlush(owner);
+	regulatorRepository.saveAndFlush(regulator);
+	regulator.addAudit(audit);
+	regulatorRepository.saveAndFlush(regulator);
     }
     
     @Test
     @Order(1)
-    public void testSaveOwner() {
-	Owner owner2 = ownerRepository.findByFirstName("test");
+    public void testRegulatorAndAudit() {
+	Regulator reg2 = regulatorRepository.findByFirstName("Jane");
 
-	log.info(owner2.toString());
-	
-	assertNotNull(owner);
-	assertEquals(owner2.getFirstName(), owner.getFirstName());
-	assertEquals(owner2.getLastName(), owner.getLastName());
+	log.info(reg2.toString());
+
+	assertNotNull(regulator);
+
+	assertEquals(reg2.getAudits().size(), 1);
     }
     
     @Test
     @Order(2)
-    public void testGetOwner() {
-	Owner owner2 = ownerRepository.findByFirstName("test");
-	assertNotNull(owner);
-	assertEquals(owner2.getFirstName(), owner.getFirstName());
-	assertEquals(owner2.getLastName(), owner.getLastName());
+    public void testRegulatorAuditQuery() {
+	Regulator reg2 = regulatorRepository.findByFirstName("Jane");
+	assertNotNull(regulator);
+	assertEquals(reg2.getFirstName(), regulator.getFirstName());
+	assertEquals(reg2.getLastName(), regulator.getLastName());
     }
+
 
     @Test
     @Order(3)
-    public void testDeleteOwner() {
-	ownerRepository.delete(owner);
-	ownerRepository.flush();
+    public void testRemoveAudit() {
+	Regulator r = regulatorRepository.findByFirstName("Jane");
+        Audit a = new ArrayList<Audit>(r.getAudits()).get(0);
+	r.removeAudit(a);
+	regulatorRepository.save(r);
+        log.info(r.toString());
     }
-    
+
     @Test
     @Order(4)
-    public void testFindAllOwners() {
-	assertNotNull(ownerRepository.findAll());
+    public void testRemoveAuditAndFlush() {
+	Regulator r = regulatorRepository.findByFirstName("Jane");
+        Audit a = new ArrayList<Audit>(r.getAudits()).get(0);
+	r.removeAudit(a);
+	regulatorRepository.saveAndFlush(r);
+        log.info(r.toString());
     }
-    
+
     @Test
     @Order(5)
-    public void testDeletByOwnerId() {
-	Owner e = ownerRepository.findByFirstName("test");
-	ownerRepository.deleteById(e.getId());
-	ownerRepository.flush();
-    }
+    public void testJpqlJoin() {
+	Regulator r = regulatorRepository.findByNameWithAuditJpql("Jane");
+	log.info(r.toString());
 
-    @Test
-    @Order(6)
-    public void testJpqlFinder() {
-	Owner e = ownerRepository.findByNameJpql("test");
-	assertEquals(e.getFirstName(), owner.getFirstName());
-    }
+	r.addAudit(new Audit("audit2", "321", "Quality"));
+	regulatorRepository.saveAndFlush(r);
 
-    @Test
-    @Order(7)
-    public void testSqlFinder() {
-	Owner p = ownerRepository.findByNameSql("test");
-	assertEquals(p.getFirstName(), owner.getFirstName());
+	r = regulatorRepository.findByNameWithAuditJpql("Jane");
+	log.info(r.toString());
     }
 
 }

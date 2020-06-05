@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Demo0: Add, list, and remove Owner & Store instances
+// Demo0: Add, list, and remove Store & Audit instances
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -44,76 +44,76 @@ import org.slf4j.LoggerFactory;
 	"logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 })
 @TestMethodOrder(OrderAnnotation.class)
-public class Demo5 {
+public class Demo9 {
 
-    private final static Logger log = LoggerFactory.getLogger(Demo5.class);
+    private final static Logger log = LoggerFactory.getLogger(Demo9.class);
     
     @Autowired
-	private OwnerRepository ownerRepository;
+	private StoreRepository storeRepository;
 
-    private final Owner owner = new Owner("Jane", "Doe", "test@calpoly.edu", "123-45-6789", "02/02/77", "123-456-7890");
+    private final Audit audit = new Audit("audit1", "123", "safety");
 	private final Store store = new Store("Store1", "1234567890", "123 Center Dr", "200 sqft");
     
     @BeforeEach
     private void setup() {
-	ownerRepository.saveAndFlush(owner);
-	owner.addStore(store);
-	ownerRepository.saveAndFlush(owner);
+	storeRepository.saveAndFlush(store);
+	store.addAudit(audit);
+	storeRepository.saveAndFlush(store);
     }
     
     @Test
     @Order(1)
-    public void testOwnerAndStore() {
-	Owner o2 = ownerRepository.findByFirstName("Jane");
+    public void testStoreAndAudit() {
+	Store store2 = storeRepository.findByStoreID("Store1");
 
-	log.info(o2.toString());
+	log.info(store2.toString());
 
-	assertNotNull(owner);
+	assertNotNull(store);
 
-	assertEquals(o2.getStores().size(), 1);
+	assertEquals(store2.getAudits().size(), 1);
     }
     
     @Test
     @Order(2)
-    public void testOwnerAndStoreQuery() {
-	Owner o2 = ownerRepository.findByFirstName("Jane");
-	assertNotNull(owner);
-	assertEquals(o2.getFirstName(), owner.getFirstName());
-	assertEquals(o2.getLastName(), owner.getLastName());
+    public void testStoreAuditQuery() {
+	Store store2 = storeRepository.findByStoreID("Store1");
+	assertNotNull(store);
+	assertEquals(store2.getStoreID(), store.getStoreID());
+	assertEquals(store2.getStoreSize(), store.getStoreSize());
     }
 
 
     @Test
     @Order(3)
-    public void testRemoveStore() {
-	Owner o = ownerRepository.findByFirstName("Jane");
-        Store s = new ArrayList<Store>(o.getStores()).get(0);
-	o.removeStore(s);
-	ownerRepository.save(o);
-        log.info(o.toString());
+    public void testStoreAudit() {
+	Store s = storeRepository.findByStoreID("Store1");
+        Audit a = new ArrayList<Audit>(s.getAudits()).get(0);
+	s.removeAudit(a);
+	storeRepository.save(s);
+        log.info(s.toString());
     }
 
     @Test
     @Order(4)
-    public void testRemoveStoreAndFlush() {
-	Owner o = ownerRepository.findByFirstName("Jane");
-        Store s = new ArrayList<Store>(o.getStores()).get(0);
-	o.removeStore(s);
-	ownerRepository.saveAndFlush(o);
-        log.info(o.toString());
+    public void testRemoveAuditAndFlush() {
+	Store s = storeRepository.findByStoreID("Store1");
+        Audit a = new ArrayList<Audit>(s.getAudits()).get(0);
+	s.removeAudit(a);
+	storeRepository.saveAndFlush(s);
+        log.info(s.toString());
     }
 
     @Test
     @Order(5)
     public void testJpqlJoin() {
-	Owner o = ownerRepository.findByNameWithStoreJpql("Jane");
-	log.info(o.toString());
+	Store s = storeRepository.findByStoreIDWithAuditJpql("Store1");
+	log.info(s.toString());
 
-	o.addStore(new Store("Store2", "0987654321", "123 Outer Dr", "100 sqft"));
-	ownerRepository.saveAndFlush(o);
+	s.addAudit(new Audit("audit2", "321", "Quality"));
+	storeRepository.saveAndFlush(s);
 
-	o = ownerRepository.findByNameWithStoreJpql("Jane");
-	log.info(o.toString());
+	s = storeRepository.findByStoreIDWithAuditJpql("Store1");
+	log.info(s.toString());
     }
 
 }

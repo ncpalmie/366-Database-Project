@@ -18,7 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Demo5: Add, list, and remove Audit instances
+// Demo4: Add, list, and remove Regulator instances
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -37,72 +37,74 @@ import org.slf4j.LoggerFactory;
 	"logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 })
 @TestMethodOrder(OrderAnnotation.class)
-public class Demo6 {
+public class Demo2 {
 
-    private final static Logger log = LoggerFactory.getLogger(Demo6.class);
+    private final static Logger log = LoggerFactory.getLogger(Demo2.class);
     
     @Autowired
-    private AuditRepository auditRepository;
+    private RegulatorRepository regulatorRepository;
 
-    private final Audit audit = new Audit("test", "123", "safety");
+    private final Regulator regulator = new Regulator("test", "test", "test@", "123", "boss");  // "reference" person
     
     @BeforeEach
     private void setup() {
-	auditRepository.saveAndFlush(audit);
+	regulatorRepository.saveAndFlush(regulator);
     }
     
     @Test
     @Order(1)
-    public void testSaveAudit() {
-	Audit audit2 = auditRepository.findByAuditID("test");
+    public void testSaveRegulator() {
+	Regulator regulator2 = regulatorRepository.findByFirstName("test");
 
-	log.info(audit2.toString());
+	log.info(regulator2.toString());
 	
-	assertNotNull(audit);
-	assertEquals(audit2.getAuditID(), audit.getAuditID());
+	assertNotNull(regulator);
+	assertEquals(regulator2.getFirstName(), regulator.getFirstName());
+	assertEquals(regulator2.getLastName(), regulator.getLastName());
     }
     
     @Test
     @Order(2)
-    public void testGetAudit() {
-	Audit audit2 = auditRepository.findByAuditID("test");
-	assertNotNull(audit);
-	assertEquals(audit2.getAuditID(), audit.getAuditID());
+    public void testGetRegulator() {
+	Regulator regulator2 = regulatorRepository.findByFirstName("test");
+	assertNotNull(regulator);
+	assertEquals(regulator2.getFirstName(), regulator.getFirstName());
+	assertEquals(regulator2.getLastName(), regulator.getLastName());
     }
 
     @Test
     @Order(3)
-    public void testDeleteAudit() {
-	auditRepository.delete(audit);
-	auditRepository.flush();
+    public void testDeleteRegulator() {
+	regulatorRepository.delete(regulator);
+	regulatorRepository.flush();
     }
     
     @Test
     @Order(4)
-    public void testFindAllAudit() {
-	assertNotNull(auditRepository.findAll());
+    public void testFindAllRegulator() {
+	assertNotNull(regulatorRepository.findAll());
     }
     
     @Test
     @Order(5)
-    public void testDeletByAuditId() {
-	Audit e = auditRepository.findByAuditID("test");
-	auditRepository.deleteById(e.getId());
-	auditRepository.flush();
+    public void testDeletByRegulatorId() {
+	Regulator e = regulatorRepository.findByFirstName("test");
+	regulatorRepository.deleteById(e.getId());
+	regulatorRepository.flush();
     }
 
     @Test
     @Order(6)
     public void testJpqlFinder() {
-	Audit e = auditRepository.findByAuditIDJpql("test");
-	assertEquals(e.getAuditID(), audit.getAuditID());
+	Regulator e = regulatorRepository.findByNameJpql("test");
+	assertEquals(e.getFirstName(), regulator.getFirstName());
     }
 
     @Test
     @Order(7)
     public void testSqlFinder() {
-	Audit p = auditRepository.findByAuditIDSql("test");
-	assertEquals(p.getAuditID(), audit.getAuditID());
+	Regulator p = regulatorRepository.findByNameSql("test");
+	assertEquals(p.getFirstName(), regulator.getFirstName());
     }
 
 }

@@ -47,6 +47,7 @@ public class Owner {
     private String phone;
 
     @OneToMany(mappedBy = "owner",
+               cascade = CascadeType.ALL,
                orphanRemoval = true,
                fetch = FetchType.LAZY)
     private List<Store> stores = new ArrayList<>();
@@ -129,6 +130,18 @@ public class Owner {
 	StringJoiner sj = new StringJoiner("," , Owner.class.getSimpleName() + "[" , "]");
 	sj.add(firstName).add(lastName).add(email).add(ssn).add(dob).add(phone).add("stores="+stores.toString());
 	return sj.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o instanceof Owner) return id != null && id.equals(((Owner) o).getId());
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 366;
     }
 
 }

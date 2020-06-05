@@ -30,7 +30,7 @@ public class Store {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "store",  orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Audit> audits = new ArrayList<>();
 
     @NotNull
@@ -105,12 +105,37 @@ public class Store {
     public void setOwner(Owner owner) {
         this.owner = owner;
     }
+
+    public void addAudit(Audit a) {
+        audits.add(a);
+        a.setStore(this);
+    }
+    public void removeAudit(Audit a) {
+        audits.remove(a);
+        a.setStore(null);
+    }
+
+    public List<Audit> getAudits() {
+        return this.audits;
+    }
     
     @Override
     public String toString() {
 	StringJoiner sj = new StringJoiner("," , Store.class.getSimpleName() + "[" , "]");
 	sj.add(storeID).add(phone).add(location).add(storeSize);
 	return sj.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o instanceof Store) return id != null && id.equals(((Store) o).getId());
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 366;
     }
 
 }

@@ -15,6 +15,9 @@ public interface StoreRepository extends JpaRepository<Store, Long>{
     // JPQL query
     @Query("from Store o where o.storeID = :storeID")
     Store findByStoreIDJpql(@Param("storeID") String storeID);
+
+    @Query("select p from Store p join p.audits audit where p.storeID = :id")
+    Store findByStoreIDWithAuditJpql(@Param("id") String id);
     
     // Native SQL query
     @Query(value = "select * from Store as o where o.storeID = :storeID", nativeQuery = true)

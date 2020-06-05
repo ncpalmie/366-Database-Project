@@ -18,7 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Demo5: Add, list, and remove Audit instances
+// Demo6: Add, list, and remove Store instances
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -37,72 +37,72 @@ import org.slf4j.LoggerFactory;
 	"logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 })
 @TestMethodOrder(OrderAnnotation.class)
-public class Demo6 {
+public class Demo8 {
 
-    private final static Logger log = LoggerFactory.getLogger(Demo6.class);
+    private final static Logger log = LoggerFactory.getLogger(Demo8.class);
     
     @Autowired
-    private AuditRepository auditRepository;
+    private StoreRepository storeRepository;
 
-    private final Audit audit = new Audit("test", "123", "safety");
+    private final Store store = new Store("test", "1234567890", "Center", "200 ft");
     
     @BeforeEach
     private void setup() {
-	auditRepository.saveAndFlush(audit);
+	storeRepository.saveAndFlush(store);
     }
     
     @Test
     @Order(1)
-    public void testSaveAudit() {
-	Audit audit2 = auditRepository.findByAuditID("test");
+    public void testSaveStore() {
+	Store store2 = storeRepository.findByStoreID("test");
 
-	log.info(audit2.toString());
+	log.info(store2.toString());
 	
-	assertNotNull(audit);
-	assertEquals(audit2.getAuditID(), audit.getAuditID());
+	assertNotNull(store);
+	assertEquals(store2.getStoreID(), store.getStoreID());
     }
     
     @Test
     @Order(2)
-    public void testGetAudit() {
-	Audit audit2 = auditRepository.findByAuditID("test");
-	assertNotNull(audit);
-	assertEquals(audit2.getAuditID(), audit.getAuditID());
+    public void testGetStore() {
+	Store store2 = storeRepository.findByStoreID("test");
+	assertNotNull(store);
+	assertEquals(store2.getStoreID(), store.getStoreID());
     }
 
     @Test
     @Order(3)
-    public void testDeleteAudit() {
-	auditRepository.delete(audit);
-	auditRepository.flush();
+    public void testDeleteStore() {
+	storeRepository.delete(store);
+	storeRepository.flush();
     }
     
     @Test
     @Order(4)
-    public void testFindAllAudit() {
-	assertNotNull(auditRepository.findAll());
+    public void testFindAllStore() {
+	assertNotNull(storeRepository.findAll());
     }
     
     @Test
     @Order(5)
-    public void testDeletByAuditId() {
-	Audit e = auditRepository.findByAuditID("test");
-	auditRepository.deleteById(e.getId());
-	auditRepository.flush();
+    public void testDeletByStoreId() {
+	Store e = storeRepository.findByStoreID("test");
+	storeRepository.deleteById(e.getId());
+	storeRepository.flush();
     }
 
     @Test
     @Order(6)
     public void testJpqlFinder() {
-	Audit e = auditRepository.findByAuditIDJpql("test");
-	assertEquals(e.getAuditID(), audit.getAuditID());
+	Store e = storeRepository.findByStoreIDJpql("test");
+	assertEquals(e.getStoreID(), store.getStoreID());
     }
 
     @Test
     @Order(7)
     public void testSqlFinder() {
-	Audit p = auditRepository.findByAuditIDSql("test");
-	assertEquals(p.getAuditID(), audit.getAuditID());
+	Store p = storeRepository.findByStoreIDSql("test");
+	assertEquals(p.getStoreID(), store.getStoreID());
     }
 
 }

@@ -45,11 +45,11 @@ public class Audit {
     private String auditID;  // note: no annotation, still included in underlying table
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="regulatorID", nullable = true)
+    @JoinColumn(name="regulator_id", nullable = true)
     private Regulator regulator;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="storeID", nullable = true)
+    @JoinColumn(name="store_id", nullable = true)
     private Store store;
 
     @Column(unique=false)
@@ -91,12 +91,30 @@ public class Audit {
     public Regulator getRegulator() {
 	return regulator;
     }
+
+    public void setStore(Store store) { this.store = store; }
+    public Store getStore() {
+        return store;
+    }
     
     @Override
     public String toString() {
 	StringJoiner sj = new StringJoiner("," , Audit.class.getSimpleName() + "[" , "]");
 	sj.add(id.toString()).add(auditID).add(date).add(auditType);
 	return sj.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o instanceof Store) return id != null && id.equals(((Store) o).getId());
+        if (o instanceof Regulator) return id != null && id.equals(((Regulator) o).getId());
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 366;
     }
 
 }

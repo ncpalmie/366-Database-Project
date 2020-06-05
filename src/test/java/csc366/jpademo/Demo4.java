@@ -18,7 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Demo4: Add, list, and remove Regulator instances
+// Demo3: Add, list, and remove Owner instances
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -42,69 +42,69 @@ public class Demo4 {
     private final static Logger log = LoggerFactory.getLogger(Demo4.class);
     
     @Autowired
-    private RegulatorRepository regulatorRepository;
+    private OwnerRepository ownerRepository;
 
-    private final Regulator regulator = new Regulator("test", "test", "test@", "123", "boss");  // "reference" person
+    private final Owner owner = new Owner("test", "test", "test@calpoly.edu", "123-45-6789", "02/02/77", "123-456-7890");
     
     @BeforeEach
     private void setup() {
-	regulatorRepository.saveAndFlush(regulator);
+	ownerRepository.saveAndFlush(owner);
     }
     
     @Test
     @Order(1)
-    public void testSaveRegulator() {
-	Regulator regulator2 = regulatorRepository.findByFirstName("test");
+    public void testSaveOwner() {
+	Owner owner2 = ownerRepository.findByFirstName("test");
 
-	log.info(regulator2.toString());
+	log.info(owner2.toString());
 	
-	assertNotNull(regulator);
-	assertEquals(regulator2.getFirstName(), regulator.getFirstName());
-	assertEquals(regulator2.getLastName(), regulator.getLastName());
+	assertNotNull(owner);
+	assertEquals(owner2.getFirstName(), owner.getFirstName());
+	assertEquals(owner2.getLastName(), owner.getLastName());
     }
     
     @Test
     @Order(2)
-    public void testGetRegulator() {
-	Regulator regulator2 = regulatorRepository.findByFirstName("test");
-	assertNotNull(regulator);
-	assertEquals(regulator2.getFirstName(), regulator.getFirstName());
-	assertEquals(regulator2.getLastName(), regulator.getLastName());
+    public void testGetOwner() {
+	Owner owner2 = ownerRepository.findByFirstName("test");
+	assertNotNull(owner);
+	assertEquals(owner2.getFirstName(), owner.getFirstName());
+	assertEquals(owner2.getLastName(), owner.getLastName());
     }
 
     @Test
     @Order(3)
-    public void testDeleteRegulator() {
-	regulatorRepository.delete(regulator);
-	regulatorRepository.flush();
+    public void testDeleteOwner() {
+	ownerRepository.delete(owner);
+	ownerRepository.flush();
     }
     
     @Test
     @Order(4)
-    public void testFindAllRegulator() {
-	assertNotNull(regulatorRepository.findAll());
+    public void testFindAllOwners() {
+	assertNotNull(ownerRepository.findAll());
     }
     
     @Test
     @Order(5)
-    public void testDeletByRegulatorId() {
-	Regulator e = regulatorRepository.findByFirstName("test");
-	regulatorRepository.deleteById(e.getId());
-	regulatorRepository.flush();
+    public void testDeletByOwnerId() {
+	Owner e = ownerRepository.findByFirstName("test");
+	ownerRepository.deleteById(e.getId());
+	ownerRepository.flush();
     }
 
     @Test
     @Order(6)
     public void testJpqlFinder() {
-	Regulator e = regulatorRepository.findByNameJpql("test");
-	assertEquals(e.getFirstName(), regulator.getFirstName());
+	Owner e = ownerRepository.findByNameJpql("test");
+	assertEquals(e.getFirstName(), owner.getFirstName());
     }
 
     @Test
     @Order(7)
     public void testSqlFinder() {
-	Regulator p = regulatorRepository.findByNameSql("test");
-	assertEquals(p.getFirstName(), regulator.getFirstName());
+	Owner p = ownerRepository.findByNameSql("test");
+	assertEquals(p.getFirstName(), owner.getFirstName());
     }
 
 }
