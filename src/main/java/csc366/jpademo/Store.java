@@ -122,7 +122,7 @@ public class Store {
     @Override
     public String toString() {
 	StringJoiner sj = new StringJoiner("," , Store.class.getSimpleName() + "[" , "]");
-	sj.add(storeID).add(phone).add(location).add(storeSize);
+	sj.add(storeID).add(phone).add(location).add(storeSize).add("audits="+audits.toString());
 	return sj.toString();
     }
 

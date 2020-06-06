@@ -42,7 +42,7 @@ public class Audit {
 
     @NotNull
     @Column(unique=true, name="auditID")
-    private String auditID;  // note: no annotation, still included in underlying table
+    private String auditID;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="regulator_id", nullable = true)

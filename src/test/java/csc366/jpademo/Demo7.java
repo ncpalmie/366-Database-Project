@@ -49,6 +49,12 @@ public class Demo7 {
     private final static Logger log = LoggerFactory.getLogger(Demo7.class);
     
     @Autowired
+	private AuditRepository auditRepository;
+
+	@Autowired
+	private StoreRepository storeRepository;
+
+	@Autowired
 	private RegulatorRepository regulatorRepository;
 
     private final Audit audit = new Audit("audit1", "123", "safety");
@@ -57,64 +63,54 @@ public class Demo7 {
     
     @BeforeEach
     private void setup() {
-	regulatorRepository.saveAndFlush(regulator);
-	regulator.addAudit(audit);
-	regulatorRepository.saveAndFlush(regulator);
+	auditRepository.saveAndFlush(audit);
     }
     
     @Test
     @Order(1)
     public void testAuditRegulatorAndStore() {
-	Regulator reg2 = regulatorRepository.findByFirstName("Jane");
+	Audit a = auditRepository.findByAuditID("audit1");
+	store.addAudit(a);
+	a = auditRepository.save(a);
+	regulator.addAudit(a);
+	a = auditRepository.save(a);
 
-	log.info(reg2.toString());
+	log.info(a.getStore().toString());
+	log.info(a.getRegulator().toString());
 
-	assertNotNull(regulator);
-
-	assertEquals(reg2.getAudits().size(), 1);
+	assertEquals(a.getStore(), store);
+	assertEquals(a.getRegulator(), regulator);
     }
-    
+
     @Test
     @Order(2)
-    public void testRegulatorAuditQuery() {
-	Regulator reg2 = regulatorRepository.findByFirstName("Jane");
-	assertNotNull(regulator);
-	assertEquals(reg2.getFirstName(), regulator.getFirstName());
-	assertEquals(reg2.getLastName(), regulator.getLastName());
+    public void testAuditStoreQuery() {
+	Audit a2 = auditRepository.findByAuditID("audit1");
+	assertNotNull(a2);
+	assertEquals(a2.getAuditID(), audit.getAuditID());
+	assertEquals(a2.getDate(), audit.getDate());
     }
-
 
     @Test
     @Order(3)
-    public void testRemoveAudit() {
-	Regulator r = regulatorRepository.findByFirstName("Jane");
-        Audit a = new ArrayList<Audit>(r.getAudits()).get(0);
-	r.removeAudit(a);
-	regulatorRepository.save(r);
-        log.info(r.toString());
-    }
-
-    @Test
-    @Order(4)
-    public void testRemoveAuditAndFlush() {
-	Regulator r = regulatorRepository.findByFirstName("Jane");
-        Audit a = new ArrayList<Audit>(r.getAudits()).get(0);
-	r.removeAudit(a);
-	regulatorRepository.saveAndFlush(r);
-        log.info(r.toString());
-    }
-
-    @Test
-    @Order(5)
     public void testJpqlJoin() {
-	Regulator r = regulatorRepository.findByNameWithAuditJpql("Jane");
-	log.info(r.toString());
-
-	r.addAudit(new Audit("audit2", "321", "Quality"));
-	regulatorRepository.saveAndFlush(r);
-
-	r = regulatorRepository.findByNameWithAuditJpql("Jane");
-	log.info(r.toString());
+	Audit a = auditRepository.findByAuditID("audit1");
+	store.addAudit(a);
+	storeRepository.saveAndFlush(store);
+	a = auditRepository.save(a);
+	a = auditRepository.findByAuditIDWithStoreJpql("audit1");
+	log.info(a.toString());
     }
+
+	@Test
+	@Order(4)
+	public void testJpqlJoin2() {
+	Audit a = auditRepository.findByAuditID("audit1");
+	regulator.addAudit(a);
+	regulatorRepository.saveAndFlush(regulator);
+	a = auditRepository.save(a);
+	a = auditRepository.findByAuditIDWithRegulatorJpql("audit1");
+	log.info(a.toString());
+	}
 
 }
