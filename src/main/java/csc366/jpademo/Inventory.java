@@ -23,21 +23,21 @@ public class Inventory {
     @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<InventoryEntry> inventoryEntries = new ArrayList<>();
 
-    @NotNull
-    @Column(name="storeID")
-    private String storeID;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="store", referencedColumnName = "storeID")
+    private Store store;
 
     public Inventory() { }
 
-    public Inventory(int inventoryID, String storeID) {
+    public Inventory(int inventoryID, Store store) {
         this.inventoryID = inventoryID;
-        this.storeID = storeID;
+        this.store = store;
     }
 
     @Override
     public String toString() {
         StringJoiner sj = new StringJoiner("," , Inventory.class.getSimpleName() + "[" , "]");
-        sj.add(Integer.toString(inventoryID)).add(storeID).add(inventoryEntries.toString());
+        sj.add(Integer.toString(inventoryID)).add(store.getStoreID()).add(inventoryEntries.toString());
         return sj.toString();
     }
 
@@ -57,15 +57,15 @@ public class Inventory {
         return inventoryID;
     }
 
-    public String getStoreID() {
-        return storeID;
+    public Store getStore() {
+        return store;
     }
 
     public void setInventoryID(int inventoryID) {
         this.inventoryID = inventoryID;
     }
 
-    public void setStoreID(String storeID) {
-        this.storeID = storeID;
+    public void setStore(Store store) {
+        this.store = store;
     }
 }

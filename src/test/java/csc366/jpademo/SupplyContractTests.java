@@ -52,7 +52,10 @@ public class SupplyContractTests {
     
     private final RawItem rawItemMilk = new RawItem("rawitem0", "Milk", 8.50, "One gallon of whole milk");
 
-    private final SupplyContract milkContract = new SupplyContract("contract0", "weekly", 20, startDate, endDate, rawItemMilk, null);
+    private final Supplier dairySupplier = new Supplier("supplier0", "Joshua Farms", "dairy", "jfarms991@gmail.com",
+                                                        "203-897-1033");
+
+    private final SupplyContract milkContract = new SupplyContract("contract0", "weekly", 20, startDate, endDate, dairySupplier, rawItemMilk, null);
     
     public static Date stringToDate(String dateStr) {
         Date dateObj = new Date();
@@ -75,6 +78,8 @@ public class SupplyContractTests {
     @Order(1)
     public void testSaveSupplyContract() {
 	    SupplyContract contract2 = supplyContractRepository.findByContractID("contract0");
+
+        log.info(contract2.getSupplier().getSupplierName());            
 
 	    assertNotNull(milkContract);
         assertNotNull(contract2);

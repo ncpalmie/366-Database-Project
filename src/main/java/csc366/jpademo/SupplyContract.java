@@ -33,7 +33,7 @@ public class SupplyContract {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier", nullable = true)
     private Supplier supplier;
 
@@ -63,12 +63,13 @@ public class SupplyContract {
 
     public SupplyContract() { }
     
-    public SupplyContract(String contractID, String deliveryFrequency, int deliveryAmount, Date startDate, Date endDate, RawItem rawItem, PackagedItem packagedItem) {
+    public SupplyContract(String contractID, String deliveryFrequency, int deliveryAmount, Date startDate, Date endDate, Supplier supplier, RawItem rawItem, PackagedItem packagedItem) {
 	    this.contractID = contractID;
         this.deliveryFrequency = deliveryFrequency;
         this.deliveryAmount = deliveryAmount;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.supplier = supplier;
         this.rawItem = rawItem;
 	    this.packagedItem = packagedItem;
     }
