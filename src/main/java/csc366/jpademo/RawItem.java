@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.OrderColumn;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
@@ -46,6 +47,9 @@ public class RawItem {
 
     @OneToOne(mappedBy = "rawItem")
     private SupplyContract supplyContract;
+
+    @ManyToMany(mappedBy = "rawItems")
+    private List<PreparedItem> preparedItems = new ArrayList<>();
 
     public RawItem() { }
     
@@ -97,6 +101,19 @@ public class RawItem {
 
     public void setSupplyContract(SupplyContract supplyContract) {
         this.supplyContract = supplyContract;
+    }
+
+    public void addPreparedItem(PreparedItem i) {
+        preparedItems.add(i);
+        i.addRawItem(this);
+    }
+    public void removePreparedItem(PreparedItem i) {
+        preparedItems.remove(i);
+        i.removeRawItem(this);
+    }
+
+    public List<PreparedItem> getPreparedItems() {
+        return this.preparedItems;
     }
 
     @Override
