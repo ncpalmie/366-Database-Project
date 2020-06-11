@@ -30,8 +30,8 @@ public class Supplier {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    //private List<SupplyContract> supplyContracts = new ArrayList<>();
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<SupplyContract> supplyContracts = new ArrayList<>();
 
     @NotNull
     @Column(name="supplierID")
@@ -99,6 +99,18 @@ public class Supplier {
     }
     public void setSupplierName(String supplierName) {
 	    this.supplierName = supplierName;
+    }
+
+    public void addContract(SupplyContract c) {
+	    supplyContracts.add(c);
+	    c.setSupplier(this);
+    }
+    public void removeContract(SupplyContract c) {
+	    supplyContracts.remove(c);
+	    c.setSupplier(null);
+    }
+    public List<SupplyContract> getSupplyContracts() {
+	    return this.supplyContracts;
     }
     
     @Override

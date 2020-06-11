@@ -15,6 +15,7 @@ import javax.persistence.Column;
 import javax.persistence.OrderColumn;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
@@ -32,8 +33,9 @@ public class SupplyContract {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    //private List<SupplyContract> supplyContracts = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "supplier", nullable = true)
+    private Supplier supplier;
 
     @NotNull
     @Column(name="contractID")
@@ -42,30 +44,31 @@ public class SupplyContract {
     @Column(name="deliveryFrequency", unique=false)
     private String deliveryFrequency;
 
+    @Column(name="deliveryAmount", unique=false)
+    private int deliveryAmount;
+
     @Column(name="startDate", unique=false)
     private Date startDate;
 
     @Column(name="endDate", unique=false)
     private Date endDate;
 
-    @Column(name="supplierID", unique=true)
-    private String supplierID;
-
-    @Column(name="rawItemID", unique=true)
-    private String rawItemID;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="rawItem", referencedColumnName = "itemID")
+    private RawItem rawItem;
 
     @Column(name="packagedItemID", unique=true)
     private String packagedItemID;
 
     public SupplyContract() { }
     
-    public SupplyContract(String contractID, String deliveryFrequency, Date startDate, Date endDate, String supplierID, String rawItemID, String packagedItemID) {
+    public SupplyContract(String contractID, String deliveryFrequency, int deliveryAmount, Date startDate, Date endDate, RawItem rawItem, String packagedItemID) {
 	    this.contractID = contractID;
         this.deliveryFrequency = deliveryFrequency;
+        this.deliveryAmount = deliveryAmount;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.supplierID = supplierID;
-	    this.rawItemID = rawItemID;
+        this.rawItem = rawItem;
 	    this.packagedItemID = packagedItemID;
     }
     
@@ -82,12 +85,20 @@ public class SupplyContract {
     public void setContractID(String contractID) {
         this.contractID = contractID;
     }
-    
-    public String getRawItemID() {
-	    return rawItemID;
+
+    public int getDeliveryAmount() {
+        return deliveryAmount;
     }
-    public void setRawItemID(String rawItemID) {
-	    this.rawItemID = rawItemID;
+    public void setDeliveryAmount(int deliveryAmount) {
+        this.deliveryAmount = deliveryAmount;
+    }
+    
+    public RawItem getRawItem() {
+        return rawItem;
+    }
+
+    public void setRawItem(RawItem rawItem) {
+        this.rawItem = rawItem;
     }
 
     public String getPackagedItemID() {
@@ -98,10 +109,10 @@ public class SupplyContract {
     }
 
     public String getSupplierID() {
-	    return supplierID;
+	    return supplier.getSupplierID();
     }
     public void setSupplierID(String supplierID) {
-	    this.supplierID = supplierID;
+	    this.supplier.setSupplierID(supplierID);
     }
 
     public Date getStartDate() {
@@ -124,14 +135,22 @@ public class SupplyContract {
     public void setDeliveryFrequency(String deliveryFrequency) {
 	    this.deliveryFrequency = deliveryFrequency;
     }
+
+    public Supplier getSupplier() {
+    	return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+    	this.supplier = supplier;
+    }
     
     @Override
     public String toString() {
 	    StringJoiner sj = new StringJoiner("," , SupplyContract.class.getSimpleName() + "[" , "]");
-        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(startDate);
         String endDateStr = df.format(endDate);
-	    sj.add(contractID).add(deliveryFrequency).add(startDateStr).add(endDateStr).add(supplierID).add(rawItemID).add(packagedItemID);
+	    sj.add(contractID).add(deliveryFrequency).add(Integer.toString(deliveryAmount)).add(startDateStr).add(endDateStr).add(rawItem.getItemName()).add(packagedItemID);
 	    return sj.toString();
     }
 
