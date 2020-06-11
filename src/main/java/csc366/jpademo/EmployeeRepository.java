@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     
-    Employee findByEmployeeID(Long id);
+    Employee findByid(Long id);
 
     @Query("from Employee e where e.id = :id")
     Employee findByEmployeeIDJpql(@Param("id") Long id);

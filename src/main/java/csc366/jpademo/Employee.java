@@ -21,7 +21,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "employee", uniqueConstraints = @UniqueConstraint(columnNames = {"email", "ssn", "phone"}))
+@Table(name = "employee", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 
 /*
 create table Employee (
@@ -55,25 +55,23 @@ public class Employee {
     @Column(unique = false)
     private String lastName;
 
-    @Column(unique = false)
+    @Column(unique = false, nullable = true)
     private Date dateOfBirth;
 
-    @NotNull
-    @Column(name = "ssn", unique = true)
+    @Column(unique = false, nullable = true)
     private String ssn;
 
-    @NotNull
-    @Column(name = "phone", unique = true)
+    @Column(unique = false, nullable = true)
     private String phone;
 
-    @Column(unique = false)
+    @Column(unique = false, nullable = true)
     private Date startDate;
 
-    @Column(unique = false)
+    @Column(unique = false, nullable = true)
     private Date endDate;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="store_id", nullable = true)
+    @JoinColumn(name="storeID", nullable = true)
     private Store store;
 
     public Employee() { }
