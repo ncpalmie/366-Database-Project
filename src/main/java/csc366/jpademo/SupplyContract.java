@@ -57,19 +57,20 @@ public class SupplyContract {
     @JoinColumn(name="rawItem", referencedColumnName = "itemID")
     private RawItem rawItem;
 
-    @Column(name="packagedItemID", unique=true)
-    private String packagedItemID;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="packagedItem", referencedColumnName = "itemID")
+    private PackagedItem packagedItem;
 
     public SupplyContract() { }
     
-    public SupplyContract(String contractID, String deliveryFrequency, int deliveryAmount, Date startDate, Date endDate, RawItem rawItem, String packagedItemID) {
+    public SupplyContract(String contractID, String deliveryFrequency, int deliveryAmount, Date startDate, Date endDate, RawItem rawItem, PackagedItem packagedItem) {
 	    this.contractID = contractID;
         this.deliveryFrequency = deliveryFrequency;
         this.deliveryAmount = deliveryAmount;
         this.startDate = startDate;
         this.endDate = endDate;
         this.rawItem = rawItem;
-	    this.packagedItemID = packagedItemID;
+	    this.packagedItem = packagedItem;
     }
     
     public Long getId() {
@@ -101,11 +102,12 @@ public class SupplyContract {
         this.rawItem = rawItem;
     }
 
-    public String getPackagedItemID() {
-	    return packagedItemID;
+    public PackagedItem getPackagedItem() {
+        return packagedItem;
     }
-    public void setPackagedItemID(String packagedItemID) {
-	    this.packagedItemID = packagedItemID;
+
+    public void setPackagedItem(PackagedItem packagedItem) {
+        this.packagedItem = packagedItem;
     }
 
     public String getSupplierID() {
@@ -150,7 +152,7 @@ public class SupplyContract {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(startDate);
         String endDateStr = df.format(endDate);
-	    sj.add(contractID).add(deliveryFrequency).add(Integer.toString(deliveryAmount)).add(startDateStr).add(endDateStr).add(rawItem.getItemName()).add(packagedItemID);
+	    sj.add(contractID).add(deliveryFrequency).add(Integer.toString(deliveryAmount)).add(startDateStr).add(endDateStr).add(rawItem.getItemName()).add(packagedItem.getItemName());
 	    return sj.toString();
     }
 

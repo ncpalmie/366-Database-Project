@@ -14,6 +14,7 @@ import javax.persistence.OrderColumn;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.UniqueConstraint;
@@ -42,6 +43,16 @@ public class PackagedItem {
 
     @Column(name="itemDescription", unique=false)
     private String itemDescription;
+
+    @ManyToOne
+    @JoinColumn(name="invEntryID", nullable=false)
+    private Inventory inventory;
+
+    @OneToOne(mappedBy = "packagedItem")
+    private SupplyContract supplyContract;
+
+    @OneToOne(mappedBy = "packagedItem")
+    private InventoryEntry inventoryEntry;
 
     public PackagedItem() { }
     

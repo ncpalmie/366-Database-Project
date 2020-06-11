@@ -48,6 +48,9 @@ public class RawItem {
     @OneToOne(mappedBy = "rawItem")
     private SupplyContract supplyContract;
 
+    @OneToOne(mappedBy = "rawItem")
+    private InventoryEntry inventoryEntry;
+
     @ManyToMany(mappedBy = "rawItems")
     private List<PreparedItem> preparedItems = new ArrayList<>();
 
