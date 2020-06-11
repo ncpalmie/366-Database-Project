@@ -109,7 +109,11 @@ public class InventoryEntry {
     @Override
     public String toString() {
 	    StringJoiner sj = new StringJoiner("," , InventoryEntry.class.getSimpleName() + "[" , "]");
-	    sj.add(inventoryEntryID).add(Integer.toString(inventory.getInventoryID())).add(Integer.toString(itemQuantity)).add(rawItem.getItemName()).add(packagedItem.getItemName());
+        if (packagedItem == null)
+	        sj.add(inventoryEntryID).add(Integer.toString(inventory.getInventoryID())).add(Integer.toString(itemQuantity)).add(rawItem.getItemName());
+        else if (rawItem == null)
+	        sj.add(inventoryEntryID).add(Integer.toString(inventory.getInventoryID())).add(Integer.toString(itemQuantity)).add(packagedItem.getItemName());
+	    return sj.toString();
 	    return sj.toString();
     }
 

@@ -79,7 +79,7 @@ public class SupplyContractTests {
     public void testSaveSupplyContract() {
 	    SupplyContract contract2 = supplyContractRepository.findByContractID("contract0");
 
-        log.info(contract2.getSupplier().getSupplierName());            
+        log.info(contract2.toString());            
 
 	    assertNotNull(milkContract);
         assertNotNull(contract2);

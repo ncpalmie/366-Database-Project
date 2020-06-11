@@ -153,7 +153,10 @@ public class SupplyContract {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(startDate);
         String endDateStr = df.format(endDate);
-	    sj.add(contractID).add(deliveryFrequency).add(Integer.toString(deliveryAmount)).add(startDateStr).add(endDateStr).add(rawItem.getItemName()).add(packagedItem.getItemName());
+        if (packagedItem == null)
+	        sj.add(contractID).add(deliveryFrequency).add(Integer.toString(deliveryAmount)).add(startDateStr).add(endDateStr).add(rawItem.getItemName());
+        else if (rawItem == null)
+	        sj.add(contractID).add(deliveryFrequency).add(Integer.toString(deliveryAmount)).add(startDateStr).add(endDateStr).add(packagedItem.getItemName());
 	    return sj.toString();
     }
 
