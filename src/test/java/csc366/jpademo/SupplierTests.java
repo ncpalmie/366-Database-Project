@@ -63,26 +63,25 @@ public class SupplierTests {
 	    assertEquals(supplier2.getSupplierID(), dairySupplier.getSupplierID());
     }
     
-//    @Test
-//    @Order(2)
-//    public void testGetPerson() {
-//	Person person2 = personRepository.findByFirstName("test");
-//	assertNotNull(person);
-//	assertEquals(person2.getFirstName(), person.getFirstName());
-//	assertEquals(person2.getLastName(), person.getLastName());
-//    }
-//
-//    @Test
-//    @Order(3)
-//    public void testDeletePerson() {
-//	personRepository.delete(person);
-//	personRepository.flush();
-//    }
-//    
-//    @Test
-//    @Order(4)
-//    public void testFindAllPersons() {
-//	assertNotNull(personRepository.findAll());
-//    }
+    @Test
+    @Order(2)
+    public void testGetSupplier() {
+    	Supplier supplier2 = supplierRepository.findBySupplierID("supplier0");
+    	assertNotNull(dairySupplier);
+    	assertEquals(supplier2.getSupplierName(), dairySupplier.getSupplierName());
+    }
+
+    @Test
+    @Order(3)
+    public void testDeleteSupplier() {
+    	supplierRepository.delete(dairySupplier);
+    	supplierRepository.flush();
+    }
+    
+    @Test
+    @Order(4)
+    public void testFindAllSuppliers() {
+    	assertNotNull(supplierRepository.findAll());
+    }
 
 }
