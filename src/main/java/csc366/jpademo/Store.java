@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.OrderColumn;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
@@ -50,10 +51,9 @@ public class Store {
     @JoinColumn(name="owner", nullable = true)
     private Owner owner;
 
-//    MANAGER
-//    @ManyToOne(fetch=FetchType.LAZY)
-//    @JoinColumn(name="location_mng", nullable = true)
-//    private LocationManager manager;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="manager", nullable = true)
+    private LocMgr manager;
     
     public Store() { }
     

@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.OrderColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.UniqueConstraint;
@@ -51,6 +53,10 @@ public class Owner {
                orphanRemoval = true,
                fetch = FetchType.LAZY)
     private List<Store> stores = new ArrayList<>();
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="manager", nullable = true)
+    private LocMgr manager;
     
     public Owner() { }
     

@@ -39,7 +39,7 @@ public class Inventory {
 
     @Override
     public String toString() {
-        StringJoiner sj = new StringJoiner("," , Order.class.getSimpleName() + "[" , "]");
+        StringJoiner sj = new StringJoiner("," , Inventory.class.getSimpleName() + "[" , "]");
         sj.add(invEntryID.toString()).add("" + itemQuantity).add(storeID.toString()).add(itemID.toString());
         return sj.toString();
     }

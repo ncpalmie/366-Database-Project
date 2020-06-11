@@ -20,10 +20,10 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "locMgr",
+@Table(name = "LocMgr",
        uniqueConstraints = @UniqueConstraint(columnNames={"last_name", "first_name"})
 )
-public class locMgr {
+public class LocMgr {
 
     @Id
     @Column(unique=true)
@@ -45,21 +45,20 @@ public class locMgr {
     @Column(unique=false)
     private String phone;
 
-
-
-    @OneToOne(mappedBy = "locMgr",
+    @OneToOne(mappedBy = "manager",
                orphanRemoval = true,
                fetch = FetchType.LAZY)
     private Store store = new Store();
 
-    @OneToOne(mappedBy = "locMgr",
+    @OneToMany(mappedBy = "manager",
+               cascade = CascadeType.ALL,
                orphanRemoval = true,
                fetch = FetchType.LAZY)
-    private Owner owner = new Owner();
+    private List<Owner> owners = new ArrayList<>();
     
-    public locMgr() { }
+    public LocMgr() { }
     
-    public locMgr(String firstName, String lastName, String email, String ssn, String dob, String phone) {
+    public LocMgr(String firstName, String lastName, String email, String ssn, String dob, String phone) {
 	this.firstName = firstName;
 	this.lastName = lastName;
 	this.email = email;
@@ -114,7 +113,7 @@ public class locMgr {
     
     @Override
     public String toString() {
-	StringJoiner sj = new StringJoiner("," , locMgr.class.getSimpleName() + "[" , "]");
+	StringJoiner sj = new StringJoiner("," , LocMgr.class.getSimpleName() + "[" , "]");
 	sj.add(firstName).add(lastName).add(email).add(ssn).add(dob).add(phone).add("store="+store.toString());
 	return sj.toString();
     }
