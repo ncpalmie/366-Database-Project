@@ -50,11 +50,31 @@ public class Store {
     @JoinColumn(name="owner", nullable = true)
     private Owner owner;
 
-//    MANAGER
+    //MANAGER
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="location_mng", nullable = true)
+    private LocationManager manager;
+
+    //Employee Table
+    @OneToMany(mappedBy = "storeE", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Employee> employees = new ArrayList<>();
+
+
+//    //**ADD to empolyee table for foreign key
 //    @ManyToOne(fetch=FetchType.LAZY)
-//    @JoinColumn(name="location_mng", nullable = true)
-//    private LocationManager manager;
-    
+//    @JoinColumn(name="storeID", nullable = true)
+//    private Store storeE;
+
+    //Inventory Table
+    @OneToMany(mappedBy = "storeI", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Inventory> products = new ArrayList<>();
+
+
+//    //**ADD to inventory table for foreign key
+//    @ManyToOne(fetch=FetchType.LAZY)
+//    @JoinColumn(name="storeID", nullable = true)
+//    private Store store;
+
     public Store() { }
     
     public Store(String storeID, String phone, String location, String storeSize) {
