@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.OrderColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.UniqueConstraint;
@@ -114,7 +115,7 @@ public class locMgr {
     @Override
     public String toString() {
 	StringJoiner sj = new StringJoiner("," , locMgr.class.getSimpleName() + "[" , "]");
-	sj.add(firstName).add(lastName).add(email).add(ssn).add(dob).add(phone).add("stores="+stores.toString());
+	sj.add(firstName).add(lastName).add(email).add(ssn).add(dob).add(phone).add("store="+store.toString());
 	return sj.toString();
     }
 
