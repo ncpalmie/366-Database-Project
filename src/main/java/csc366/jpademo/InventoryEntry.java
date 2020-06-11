@@ -114,7 +114,6 @@ public class InventoryEntry {
         else if (rawItem == null)
 	        sj.add(inventoryEntryID).add(Integer.toString(inventory.getInventoryID())).add(Integer.toString(itemQuantity)).add(packagedItem.getItemName());
 	    return sj.toString();
-	    return sj.toString();
     }
 
     @Override
