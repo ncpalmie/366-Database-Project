@@ -18,6 +18,9 @@ public interface LocMgrRepository extends JpaRepository<LocMgr, Long>{
     @Query("from LocMgr o where o.firstName = :name or o.lastName = :name")
     LocMgr findByNameJpql(@Param("name") String name);
     
+    @Query("select o from LocMgr o join o.stores store where o.firstName = :name or o.lastName = :name")
+    LocMgr findByNameWithStoreJpql(@Param("name") String name);
+    
     // Native SQL query
     @Query(value = "select * from LocMgr as o where o.first_name = :name or o.last_name = :name", nativeQuery = true)
     LocMgr findByNameSql(@Param("name") String name);
