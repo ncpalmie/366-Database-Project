@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Demo0: Add, list, and remove Owner & Store instances
+// OwnerStoreTests: Add, list, and remove Owner & Store instances
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -44,9 +44,9 @@ import org.slf4j.LoggerFactory;
 	"logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 })
 @TestMethodOrder(OrderAnnotation.class)
-public class Demo5 {
+public class OwnerStoreTests {
 
-    private final static Logger log = LoggerFactory.getLogger(Demo5.class);
+    private final static Logger log = LoggerFactory.getLogger(OwnerStoreTests.class);
     
     @Autowired
 	private OwnerRepository ownerRepository;
