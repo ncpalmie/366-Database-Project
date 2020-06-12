@@ -26,6 +26,9 @@ import javax.validation.constraints.NotNull;
 public class LocMgr {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+
     @Column(unique=true)
     private String email;
 
@@ -67,6 +70,13 @@ public class LocMgr {
 	this.phone = phone;
     }
     
+    public Long getId() {
+	return id;
+    }
+
+    public void setId(Long id) {
+	this.id = id;
+    }
 
     public String getSSN() {
         return ssn;
@@ -116,6 +126,18 @@ public class LocMgr {
 	StringJoiner sj = new StringJoiner("," , LocMgr.class.getSimpleName() + "[" , "]");
 	sj.add(firstName).add(lastName).add(email).add(ssn).add(dob).add(phone).add("store="+store.toString());
 	return sj.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o instanceof LocMgr) return id != null && id.equals(((LocMgr) o).getId());
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 366;
     }
 
 }
