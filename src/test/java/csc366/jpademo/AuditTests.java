@@ -18,7 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Demo5: Add, list, and remove Audit instances
+// AuditTests: Add, list, and remove Audit instances
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -37,9 +37,9 @@ import org.slf4j.LoggerFactory;
 	"logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 })
 @TestMethodOrder(OrderAnnotation.class)
-public class Demo6 {
+public class AuditTests {
 
-    private final static Logger log = LoggerFactory.getLogger(Demo6.class);
+    private final static Logger log = LoggerFactory.getLogger(AuditTests.class);
     
     @Autowired
     private AuditRepository auditRepository;
