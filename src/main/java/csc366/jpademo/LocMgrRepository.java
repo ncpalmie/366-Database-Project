@@ -10,9 +10,9 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface LocMgrRepository extends JpaRepository<LocMgr, Long>{
 
-    Owner findByFirstName(String firstName);
+    LocMgr findByFirstName(String firstName);
 
-    Owner findByLastName(String lastName);
+    LocMgr findByLastName(String lastName);
 
     // JPQL query
     @Query("from LocMgr o where o.firstName = :name or o.lastName = :name")
