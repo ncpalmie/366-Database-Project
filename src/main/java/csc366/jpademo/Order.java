@@ -28,7 +28,7 @@ import org.hibernate.query.criteria.internal.expression.function.CurrentTimestam
 import org.springframework.data.auditing.CurrentDateTimeProvider;
 
 @Entity
-@Table(name = "Order")
+@Table(name = "`Order`")
 
 public class Order {
     @Id
@@ -81,6 +81,7 @@ public class Order {
     public Long getId() {
 	    return this.id;
     }
+
     public Date getTimeOrdered(String firstName) {
 	    return this.timeOrdered;
     }
@@ -91,6 +92,15 @@ public class Order {
 
     public void setTotalCost(Double cost) {
 	    this.totalCost = cost;
+    }
+
+    public void addItemsOrdered(ItemsOrdered o) {
+        itemsOrdered.add(o);
+        o.setOrder(this);
+    }
+
+    public List<ItemsOrdered> getItemsOrdered() {
+        return this.itemsOrdered;
     }
 
     @Override

@@ -120,11 +120,24 @@ public class Customer {
     public void setRewardsPoints(Integer points) {
         this.rewardsPoints = points;
     }
+
+    public void addOrder(Order o) {
+        orders.add(o);
+        o.setCustomer(this);
+    }
+    public void removeOrder(Order o) {
+        orders.remove(o);
+        o.setCustomer(null);
+    }
+
+    public List<Order> getOrders() {
+        return this.orders;
+    }
     
     @Override
     public String toString() {
         StringJoiner sj = new StringJoiner("," , Customer.class.getSimpleName() + "[" , "]");
-        sj.add(firstName).add(lastName).add(email).add(dob).add(phone).add("orders=" + orders.toString());
+        sj.add(email).add(firstName).add(lastName).add(dob).add(phone).add("orders=" + orders.toString());
         return sj.toString();
     }
 

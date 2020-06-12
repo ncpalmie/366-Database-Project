@@ -84,6 +84,15 @@ public class MenuItem {
 	    return this.description;
     }
 
+    public void addItemsOrdered(ItemsOrdered o) {
+        itemsOrdered.add(o);
+        o.setMenuItem(this);
+    }
+
+    public List<ItemsOrdered> getItemsOrdered() {
+        return this.itemsOrdered;
+    }
+
     @Override
     public String toString() {
         StringJoiner sj = new StringJoiner("," , MenuItem.class.getSimpleName() + "[" , "]");
