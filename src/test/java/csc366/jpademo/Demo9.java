@@ -97,7 +97,7 @@ public class Demo9 {
     @Order(4)
     public void testRemoveAuditAndFlush() {
 	Store s = storeRepository.findByStoreID("Store1");
-        Audit a = new ArrayList<Audit>(s.getAudits()).get(0);
+	Audit a = new ArrayList<Audit>(s.getAudits()).get(0);
 	s.removeAudit(a);
 	storeRepository.saveAndFlush(s);
         log.info(s.toString());

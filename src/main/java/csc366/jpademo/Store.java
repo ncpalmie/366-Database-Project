@@ -50,14 +50,14 @@ public class Store {
     @JoinColumn(name="owner", nullable = true)
     private Owner owner;
 
-    //MANAGER
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="location_mng", nullable = true)
-    private LocationManager manager;
+//    //MANAGER
+//    @ManyToOne(fetch=FetchType.LAZY)
+//    @JoinColumn(name="location_mng", nullable = true)
+//    private LocationManager manager;
 
-    //Employee Table
-    @OneToMany(mappedBy = "storeE", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Employee> employees = new ArrayList<>();
+//    //Employee Table
+//    @OneToMany(mappedBy = "storeE", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    private List<Employee> employees = new ArrayList<>();
 
 
 //    //**ADD to empolyee table for foreign key
@@ -65,9 +65,9 @@ public class Store {
 //    @JoinColumn(name="storeID", nullable = true)
 //    private Store storeE;
 
-    //Inventory Table
-    @OneToMany(mappedBy = "storeI", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Inventory> products = new ArrayList<>();
+//    //Inventory Table
+//    @OneToMany(mappedBy = "storeI", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    private List<Inventory> inventory = new ArrayList<>();
 
 
 //    //**ADD to inventory table for foreign key
@@ -138,6 +138,32 @@ public class Store {
     public List<Audit> getAudits() {
         return this.audits;
     }
+//
+//    public void addInventory(Inventory i) {
+//        inventory.add(i);
+//        i.setStore(this);
+//    }
+//    public void removeInventory(Inventory i) {
+//        inventory.remove(i);
+//        i.setStore(null);
+//    }
+//
+//    public List<Inventory> getInventory() {
+//        return this.inventory;
+//    }
+//
+//    public void addEmployee(Employee e) {
+//        employees.add(e);
+//        e.setStore(this);
+//    }
+//    public void removeEmployee(Employee e) {
+//        employees.remove(e);
+//        e.setStore(null);
+//    }
+//
+//    public List<Employee> getEmployees() {
+//        return this.employees;
+//    }
     
     @Override
     public String toString() {
