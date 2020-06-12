@@ -52,6 +52,10 @@ public class SupplyContract {
 
     @Column(name="endDate", unique=false)
     private Date endDate;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="storeSupplied", referencedColumnName = "storeID")
+    private Store storeSupplied;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="rawItem", referencedColumnName = "itemID")
@@ -63,7 +67,7 @@ public class SupplyContract {
 
     public SupplyContract() { }
     
-    public SupplyContract(String contractID, String deliveryFrequency, int deliveryAmount, Date startDate, Date endDate, Supplier supplier, RawItem rawItem, PackagedItem packagedItem) {
+    public SupplyContract(String contractID, String deliveryFrequency, int deliveryAmount, Date startDate, Date endDate, Supplier supplier, RawItem rawItem, PackagedItem packagedItem, Store storeSupplied) {
 	    this.contractID = contractID;
         this.deliveryFrequency = deliveryFrequency;
         this.deliveryAmount = deliveryAmount;
@@ -72,6 +76,7 @@ public class SupplyContract {
         this.supplier = supplier;
         this.rawItem = rawItem;
 	    this.packagedItem = packagedItem;
+        this.storeSupplied = storeSupplied;
     }
     
     public Long getId() {
@@ -145,6 +150,14 @@ public class SupplyContract {
 
     public void setSupplier(Supplier supplier) {
     	this.supplier = supplier;
+    }
+    
+    public Store getStoreSupplied() {
+        return storeSupplied;
+    }
+
+    public void setStoreSupplied(Store store) {
+        this.storeSupplied = store;
     }
     
     @Override

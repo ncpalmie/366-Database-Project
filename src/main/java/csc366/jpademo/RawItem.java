@@ -121,9 +121,9 @@ public class RawItem {
 
     @Override
     public String toString() {
-	StringJoiner sj = new StringJoiner("," , Supplier.class.getSimpleName() + "[" , "]");
-	sj.add(itemID).add(itemName).add(Double.toString(itemCost)).add(itemDescription);
-	return sj.toString();
+	    StringJoiner sj = new StringJoiner("," , Supplier.class.getSimpleName() + "[" , "]");
+	    sj.add(itemID).add(itemName).add(Double.toString(itemCost)).add(itemDescription);
+	    return sj.toString();
     }
 
     @Override

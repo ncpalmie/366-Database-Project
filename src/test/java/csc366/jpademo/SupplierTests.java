@@ -18,8 +18,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Demo0: Add, list, and remove Person instances
-
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @TestPropertySource(properties = {
@@ -54,7 +52,7 @@ public class SupplierTests {
     
     @Test
     @Order(1)
-    public void testSaveSupplier() {
+    public void testSaveSupplierAndGetByName() {
 	    Supplier supplier2 = supplierRepository.findBySupplierName("Joshua Farms");
 
 	    log.info(supplier2.toString());
@@ -65,7 +63,7 @@ public class SupplierTests {
     
     @Test
     @Order(2)
-    public void testGetSupplier() {
+    public void testGetSupplierByID() {
     	Supplier supplier2 = supplierRepository.findBySupplierID("supplier0");
     	assertNotNull(dairySupplier);
     	assertEquals(supplier2.getSupplierName(), dairySupplier.getSupplierName());
@@ -84,4 +82,31 @@ public class SupplierTests {
     	assertNotNull(supplierRepository.findAll());
     }
 
+    @Test
+    @Order(5)
+    public void testSupplierModifiers() {
+        Supplier supplier2 = supplierRepository.findBySupplierID("supplier0");
+        supplier2.setSupplierPhone("999-888-7777");
+        supplier2.setSupplierEmail("test@gmail.com");
+        supplier2.setSupplierName("test supplier");
+        supplier2.setSupplierType("test type");
+        supplierRepository.save(supplier2);
+
+        
+        supplier2 = supplierRepository.findBySupplierID("supplier0");
+        assertEquals(supplier2.getSupplierPhone(), "999-888-7777");
+        assertEquals(supplier2.getSupplierEmail(), "test@gmail.com");
+        assertEquals(supplier2.getSupplierName(), "test supplier");
+        assertEquals(supplier2.getSupplierType(), "test type");
+    }
+
+    @Test
+    @Order(6)
+    public void testFindUsingJpql() {
+        Supplier supplier2 = supplierRepository.findBySupplierIDJpql("supplier0");
+
+        assertNotNull(supplier2);
+        assertNotNull(dairySupplier);
+    	assertEquals(supplier2.getSupplierID(), dairySupplier.getSupplierID());
+    }
 }

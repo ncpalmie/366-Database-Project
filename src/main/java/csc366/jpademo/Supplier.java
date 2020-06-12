@@ -73,17 +73,17 @@ public class Supplier {
         this.supplierID = supplierID;
     }
     
-    public String getPhone() {
+    public String getSupplierPhone() {
 	    return phone;
     }
-    public void setPhone(String phone) {
+    public void setSupplierPhone(String phone) {
 	    this.phone = phone;
     }
 
-    public String getEmail() {
+    public String getSupplierEmail() {
 	    return email;
     }
-    public void setEmail(String email) {
+    public void setSupplierEmail(String email) {
 	    this.email = email;
     }
 

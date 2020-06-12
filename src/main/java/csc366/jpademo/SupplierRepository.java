@@ -17,12 +17,19 @@ public interface SupplierRepository extends JpaRepository<Supplier, Long>{
     @Query("from Supplier o where o.supplierID = :supplierID")
     Supplier findBySupplierIDJpql(@Param("supplierID") String supplierID);
 
-    // Native SQL query
-    @Query(value = "select * from Supplier as o where o.supplierID = :supplierID", nativeQuery = true)
-    Supplier findBySupplierIDSql(@Param("supplierID") String supplierID);
-
     @Modifying
     @Query("update Supplier o set o.phone = :newPhone where o.supplierID = :givenSupplierID")
     void updateSupplierPhone(@Param("givenSupplierID") String givenSupplierID, @Param("newPhone") String newPhone);
 
+    @Modifying
+    @Query("update Supplier o set o.email = :newEmail where o.supplierID = :givenSupplierID")
+    void updateSupplierEmail(@Param("givenSupplierID") String givenSupplierID, @Param("newEmail") String newEmail);
+
+    @Modifying
+    @Query("update Supplier o set o.supplierName = :newSupplierName where o.supplierID = :givenSupplierID")
+    void updateSupplierName(@Param("givenSupplierID") String givenSupplierID, @Param("newSupplierName") String newSupplierName);
+
+    @Modifying
+    @Query("update Supplier o set o.supplierType = :newSupplierType where o.supplierID = :givenSupplierID")
+    void updateSupplierType(@Param("givenSupplierID") String givenSupplierID, @Param("newSupplierType") String newSupplierType);
 }

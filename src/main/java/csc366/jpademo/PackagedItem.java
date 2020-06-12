@@ -44,10 +44,6 @@ public class PackagedItem {
     @Column(name="itemDescription", unique=false)
     private String itemDescription;
 
-    @ManyToOne
-    @JoinColumn(name="invEntryID", nullable=false)
-    private Inventory inventory;
-
     @OneToOne(mappedBy = "packagedItem")
     private SupplyContract supplyContract;
 
@@ -100,9 +96,9 @@ public class PackagedItem {
 
     @Override
     public String toString() {
-	StringJoiner sj = new StringJoiner("," , Supplier.class.getSimpleName() + "[" , "]");
-	sj.add(itemID).add(itemName).add(Double.toString(itemCost)).add(itemDescription);
-	return sj.toString();
+	    StringJoiner sj = new StringJoiner("," , Supplier.class.getSimpleName() + "[" , "]");
+	    sj.add(itemID).add(itemName).add(Double.toString(itemCost)).add(itemDescription);
+	    return sj.toString();
     }
 
     @Override
