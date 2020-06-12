@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Demo0: Add, list, and remove Audit, Regualtor, & Store instances
+// AuditStoreRegulatorTests: Add, list, and remove Audit, Regualtor, & Store instances
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -44,9 +44,9 @@ import org.slf4j.LoggerFactory;
 	"logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 })
 @TestMethodOrder(OrderAnnotation.class)
-public class Demo7 {
+public class AuditStoreRegulatorTests {
 
-    private final static Logger log = LoggerFactory.getLogger(Demo7.class);
+    private final static Logger log = LoggerFactory.getLogger(AuditStoreRegulatorTests.class);
     
     @Autowired
 	private AuditRepository auditRepository;
