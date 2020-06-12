@@ -11,10 +11,11 @@ import org.springframework.data.repository.query.Param;
 public interface InventoryRepository extends JpaRepository<Inventory, Long>{
 
     Inventory findByInventoryID(int inventoryID);
+    Inventory findByInventoryName(String inventoryName);
 
     // JPQL query
-    @Query("from Inventory o where o.inventoryID = :inventoryID")
-    Inventory findByInventoryIDJpql(@Param("inventoryID") int inventoryID);
+    @Query("from Inventory o where o.inventoryName = :inventoryName")
+    Inventory findByInventoryNameJpql(@Param("inventoryName") String inventoryName);
 
     @Modifying
     @Query("update Inventory o set o.store = :newStore where o.inventoryID = :givenInventoryID")

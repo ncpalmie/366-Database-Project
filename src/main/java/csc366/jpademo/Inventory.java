@@ -20,6 +20,9 @@ public class Inventory {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int inventoryID;
 
+    @Column(name = "inventoryName")
+    private String inventoryName;
+
     @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<InventoryEntry> inventoryEntries = new ArrayList<>();
 
@@ -29,8 +32,9 @@ public class Inventory {
 
     public Inventory() { }
 
-    public Inventory(int inventoryID, Store store) {
+    public Inventory(int inventoryID, String inventoryName, Store store) {
         this.inventoryID = inventoryID;
+        this.inventoryName = inventoryName;
         this.store = store;
     }
 
@@ -59,6 +63,14 @@ public class Inventory {
 
     public Store getStore() {
         return store;
+    }
+
+    public String getInventoryName() {
+        return inventoryName;
+    }
+
+    public void setInventoryName(String inventoryName) {
+        this.inventoryName = inventoryName;
     }
 
     public void setInventoryID(int inventoryID) {
