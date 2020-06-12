@@ -99,11 +99,11 @@ public class PreparedItem {
 
     public void addRawItem(RawItem i) {
         rawItems.add(i);
-        i.addPreparedItem(this);
+        i.getPreparedItems().add(this);
     }
-    public void removeRawItem(RawItem i) {
+    public boolean removeRawItem(RawItem i) {
         rawItems.remove(i);
-        i.removePreparedItem(this);
+        return i.getPreparedItems().remove(this);
     }
 
     public List<RawItem> getRawItems() {

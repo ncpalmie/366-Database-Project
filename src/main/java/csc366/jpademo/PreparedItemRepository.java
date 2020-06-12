@@ -10,12 +10,12 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface PreparedItemRepository extends JpaRepository<PreparedItem, Long>{
 
-    PreparedItem findByItemID(String itemID);
+    PreparedItem findByItemID(int itemID);
     PreparedItem findByItemName(String itemName);
 
     // JPQL query
-    @Query("from PreparedItem o where o.itemID = :itemID")
-    PreparedItem findByPreparedItemIDJpql(@Param("itemID") String itemID);
+    @Query("from PreparedItem o where o.itemName = :itemName")
+    PreparedItem findByItemNameJpql(@Param("itemName") String itemName);
 
     @Modifying
     @Query("update PreparedItem o set o.prepTimeMin = :newPrepTime where o.itemID = :givenItemID")
