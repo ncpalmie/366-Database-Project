@@ -37,26 +37,33 @@ import org.slf4j.LoggerFactory;
 	"logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 })
 @TestMethodOrder(OrderAnnotation.class)
-public class locMgrTests {
+public class LocMgrTests {
 
-    private final static Logger log = LoggerFactory.getLogger(locMgrTests.class);
+    private final static Logger log = LoggerFactory.getLogger(LocMgrTests.class);
     
     @Autowired
     private LocMgrRepository locMgrRepository;
 
-    private final LocMgr locMgr = new locMgr("test", "test", "test@calpoly.edu", "123-45-6789", "02/02/77", "123-456-7890");
+    @Autowired
+    private StoreRepository storeRepository;
+
+    private final LocMgr locMgr = new LocMgr("test", "test", "test@calpoly.edu", "123-45-6789", "02/02/77", "123-456-7890");
     
+    private final Store randomStore = new Store("store0", "860-345-1920", "Glendale", "Large"); 
+
     @BeforeEach
     private void setup() {
+    storeRepository.saveAndFlush(randomStore);
+    locMgr.setStore(randomStore);
 	locMgrRepository.saveAndFlush(locMgr);
     }
     
     @Test
     @Order(1)
     public void testSaveLocMgr() {
-	LocMgr logMgr2 = logMgrRepository.findByFirstName("test");
+	LocMgr locMgr2 = locMgrRepository.findByFirstName("test");
 
-	log.info(logMgr2.toString());
+	log.info(locMgr2.toString());
 	
 	assertNotNull(locMgr);
 	assertEquals(locMgr2.getFirstName(), locMgr.getFirstName());
@@ -98,13 +105,6 @@ public class locMgrTests {
     public void testJpqlFinder() {
 	LocMgr e = locMgrRepository.findByNameJpql("test");
 	assertEquals(e.getFirstName(), locMgr.getFirstName());
-    }
-
-    @Test
-    @Order(7)
-    public void testSqlFinder() {
-	LocMgr p = locMgrRepository.findByNameSql("test");
-	assertEquals(p.getFirstName(), locMgr.getFirstName());
     }
 
 }

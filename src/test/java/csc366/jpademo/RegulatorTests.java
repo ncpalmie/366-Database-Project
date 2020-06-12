@@ -37,9 +37,9 @@ import org.slf4j.LoggerFactory;
 	"logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 })
 @TestMethodOrder(OrderAnnotation.class)
-public class Demo2 {
+public class RegulatorTests {
 
-    private final static Logger log = LoggerFactory.getLogger(Demo2.class);
+    private final static Logger log = LoggerFactory.getLogger(RegulatorTests.class);
     
     @Autowired
     private RegulatorRepository regulatorRepository;
