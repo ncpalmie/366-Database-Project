@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
     
     MenuItem findByid(Long id);
+    MenuItem findByMenuItemID(String menuItemID);
 
     @Query("from MenuItem c where c.id = :id")
     MenuItem findByMenuItemIdJpql(@Param("id") Long id);

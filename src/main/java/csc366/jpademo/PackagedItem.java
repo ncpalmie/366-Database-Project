@@ -50,6 +50,9 @@ public class PackagedItem {
     @OneToOne(mappedBy = "packagedItem")
     private InventoryEntry inventoryEntry;
 
+    @OneToOne(mappedBy = "packagedItem")
+    private MenuItem menuItem;
+
     public PackagedItem() { }
     
     public PackagedItem(String itemID, String itemName, double itemCost, String itemDescription) {
