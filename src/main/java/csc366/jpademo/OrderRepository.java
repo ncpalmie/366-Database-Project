@@ -8,14 +8,23 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long>{
+
+    /*Order findByid(Long id);
+
+    // JPQL query
+    @Query("from `Order` o where o.id = :id")
+    Order findByOrderIDJpql(@Param("id") Long id);
+
+    @Query("select p from `Order` p join p.customers customer where p.id = :id")
+    Order findByOrderIDWithAuditJpql(@Param("id") Long id);
     
-    Order findByid(Long id);
+    // Native SQL query
+    @Query(value = "select * from `Order` as o where o.id = :id", nativeQuery = true)
+    Order findByOrderIDSql(@Param("id") Long id);
 
-    @Query("from Order o where o.id = :id")
-    Order findByOrderIdJpql(@Param("id") Long id);
-
-    @Query("from Order o where o.totalCost = :cost")
-    Order findByOrderTotalCostJpql(@Param("cost") float cost);
+    @Modifying
+    @Query("update `Order` o set o.id = :newId where o.id = :oldId")
+    void updateOrderID(@Param("oldId") Long oldId, @Param("newId") Long newId);*/
 
 }

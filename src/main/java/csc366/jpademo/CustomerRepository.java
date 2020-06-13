@@ -12,23 +12,26 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
     
     Customer findByEmail(String email);
 
-    @Query("from Customer c where c.email = :email")
-    Customer findByCustomerEmailJpql(@Param("email") String email);
+    Customer findByFirstName(String firstName);
 
-    @Query("from Customer c where c.phone = :phone")
-    Customer findByCustomerPhoneJpql(@Param("phone") String phone);
+    Customer findByLastName(String lastName);
+
+    // JPQL query
+    @Query("from Customer o where o.firstName = :name or o.lastName = :name")
+    Customer findByNameJpql(@Param("name") String name);
+
+    /*@Query("select o from Customer o join o.orders order where o.firstName = :name or o.lastName = :name")
+    Customer findByNameWithOrderJpql(@Param("name") String name);
+    
+    // Native SQL query
+    @Query(value = "select * from Customer as o where o.firstName = :name or o.lastName = :name", nativeQuery = true)
+    Customer findByNameSql(@Param("name") String name);
 
     @Modifying
-    @Query("update Customer c set c.phone = :newPhone where c.email = :email")
-    void updateCustomerPhone(
-        @Param("newPhone") String newPhone, 
-        @Param("email") String email
-    );
+    @Query("update Customer o set o.firstName = :newName where o.firstName = :oldName")
+    void updateName(@Param("oldName") String oldName, @Param("newName") String newName);
 
     @Modifying
-    @Query("update Customer c set c.rewardsPoints = :newPoints where c.email = :email")
-    void updateCustomerPhone(
-        @Param("newPoints") Integer newPoints, 
-        @Param("email") String email
-    );
+    @Query("update Customer o set o.email = :newEmail where o.email = :oldEmail")
+    void updateEmail(@Param("oldEmail") String oldEmail, @Param("newEmail") String newEmail);*/
 }
