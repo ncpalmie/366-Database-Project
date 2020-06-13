@@ -66,4 +66,32 @@ public class MenuItemTests {
 	    assertEquals(menuItem2.getMenuItemID(), menuItem.getMenuItemID());
     }
     
+    @Test
+    @Order(2)
+    public void testDeleteMenuItem() {
+    	menuItemRepository.delete(menuItem);
+    	menuItemRepository.flush();
+    }
+    
+    @Test
+    @Order(3)
+    public void testFindAllMenuItems() {
+    	assertNotNull(menuItemRepository.findAll());
+    }
+
+    @Test
+    @Order(4)
+    public void testMenuItemModifiers() {
+        PackagedItem packagedItemTest = new PackagedItem("T", "T", -1, "T");
+        MenuItem menuItem2 = menuItemRepository.findByMenuItemID("packageditem0");
+        menuItem2.setCost(-1);
+        menuItem2.setName("T");
+        menuItemRepository.save(menuItem2);
+
+        
+        menuItem2 = menuItemRepository.findByMenuItemID("packageditem0");
+        assertEquals(menuItem2.getCost(), -1);
+        assertEquals(menuItem2.getName(), "T");
+    }
+
 }
